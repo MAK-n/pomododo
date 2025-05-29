@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomododo</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="background-overlay"></div>
+
+    <!-- Music Player -->
+    <div class="music-player">
+        <button id="music-toggle" class="music-btn" title="Toggle Background Music">
+            <span class="speaker-icon">🔊</span>
+        </button>
+        <audio id="background-music" loop>
+            <source src="music/music.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <div class="container">
+        <h1 class="title">Pomododo Timer</h1>
+
+        <hr>
+
+        <!-- Timer Mode Selection -->
+        <div class="mode-selector">
+            <button class="mode-btn active" data-mode="session" data-duration="1500">Session</button>
+            <button class="mode-btn" data-mode="short-break" data-duration="300">Short Break</button>
+            <button class="mode-btn" data-mode="long-break" data-duration="1200">Long Break</button>
+        </div>
+
+        <p class="timer" id="timer">
+            25:00
+        </p>
+
+        <div class="button-wrapper">
+            <button id="start">Start</button>
+            <button id="stop">Stop</button>
+            <button id="reset">Reset</button>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
