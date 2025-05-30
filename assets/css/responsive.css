@@ -86,6 +86,20 @@ Mobile and tablet responsive design
   }
 
   /* ===== MOBILE TOGGLE BUTTONS ===== */
+  .lamp-toggle {
+    top: 1.5em;
+    left: 1.5em; /* Top left corner on mobile */
+  }
+
+  .lamp-toggle-btn {
+    width: 50px;
+    height: 50px;
+  }
+
+  .lamp-icon {
+    font-size: 1.3em;
+  }
+
   .music-player {
     bottom: 1.5em;
     left: 1.5em; /* Bottom left corner on mobile */

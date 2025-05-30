@@ -11,12 +11,9 @@ $(document).ready(function() {
 
   // ===== GLOBAL VARIABLES =====
 
-  // Theme Variables
-  let isDarkMode = localStorage.getItem('darkMode') === 'true';
-
   // Background Elements
   const backgroundOverlay = $('.background-overlay');
-  const lampOverlay = $('#lamp-overlay');
+  const backgroundTransition = $('.background-transition');
 
   // Music Elements
   const musicBtn = $('.music-btn');
@@ -58,32 +55,11 @@ $(document).ready(function() {
     console.log('⚠️ initializeAchievements function not found (optional)');
   }
 
-  initializeTheme();
   initializeMusic();
   initializeSettingsMenu();
 
   // ===== THEME FUNCTIONALITY =====
-
-  function initializeTheme() {
-    updateTheme();
-  }
-
-  function updateTheme() {
-    if (isDarkMode) {
-      backgroundOverlay.css('background-image', 'url("assets/img/couch-alt-night.png")');
-      if (lampOverlay.length) lampOverlay.show();
-    } else {
-      backgroundOverlay.css('background-image', 'url("assets/img/couch-alt-night.png")'); // Keep night theme for now
-      if (lampOverlay.length) lampOverlay.hide();
-    }
-  }
-
-  // Theme toggle (can be triggered by external controls)
-  window.toggleTheme = function() {
-    isDarkMode = !isDarkMode;
-    localStorage.setItem('darkMode', isDarkMode);
-    updateTheme();
-  };
+  // Note: Background image switching is now handled by lamp toggle functionality
 
   // ===== MUSIC FUNCTIONALITY =====
 
@@ -110,8 +86,8 @@ $(document).ready(function() {
     }
   }
 
-  // Music toggle
-  musicBtn.on('click', function() {
+  // Music toggle - using both class and ID selectors for reliability
+  $('#music-toggle, .music-btn').on('click', function() {
     console.log('🎵 Music button clicked!');
     if (!backgroundMusic) {
       console.log('❌ Background music element not found');
@@ -323,12 +299,17 @@ $(document).ready(function() {
 
     // M for music toggle
     if (e.code === 'KeyM' && !$(e.target).is('input, textarea, select')) {
-      musicBtn.click();
+      $('#music-toggle').click();
     }
 
     // G for settings menu (G for "Gear")
     if (e.code === 'KeyG' && !$(e.target).is('input, textarea, select')) {
       settingsToggleBtn.click();
+    }
+
+    // L for lamp toggle (L for "Light")
+    if (e.code === 'KeyL' && !$(e.target).is('input, textarea, select')) {
+      $('#lamp-toggle-btn').click();
     }
   });
 
@@ -370,6 +351,59 @@ $(document).ready(function() {
     }
   };
 
+  // ===== LAMP TOGGLE FUNCTIONALITY =====
+
+  let isLampOn = false;
+  const lampToggleBtn = $('#lamp-toggle-btn');
+
+  function initializeLampToggle() {
+    console.log('💡 Initializing Lamp Toggle');
+
+    // Load saved lamp state
+    isLampOn = localStorage.getItem('lampState') === 'true';
+    updateBackgroundImage();
+
+    // Event listener
+    lampToggleBtn.on('click', toggleLamp);
+
+    console.log('✅ Lamp Toggle Initialized');
+  }
+
+  function toggleLamp() {
+    isLampOn = !isLampOn;
+    updateBackgroundImage();
+
+    // Save state
+    localStorage.setItem('lampState', isLampOn.toString());
+
+    console.log('💡 Lamp toggled:', isLampOn ? 'ON' : 'OFF');
+  }
+
+  function updateBackgroundImage() {
+    const newImageUrl = isLampOn ?
+      'url("assets/img/couch-alt3.png")' :
+      'url("assets/img/couch-alt-night.png")';
+
+    console.log('🎨 Starting background fade transition...');
+    console.log(isLampOn ? '🌞 Fading to couch-alt3.png' : '🌙 Fading to couch-alt-night.png');
+
+    // Set the new image on the transition layer
+    backgroundTransition.css('background-image', newImageUrl);
+
+    // Fade in the transition layer
+    backgroundTransition.css('opacity', '1');
+
+    // After the fade completes, swap the images and reset
+    setTimeout(() => {
+      backgroundOverlay.css('background-image', newImageUrl);
+      backgroundTransition.css('opacity', '0');
+      console.log('✨ Background fade transition complete');
+    }, 800); // Match the CSS transition duration
+  }
+
+  // Initialize lamp toggle
+  initializeLampToggle();
+
   // ===== BUTTON TESTING =====
 
   window.testButtons = function() {
@@ -379,6 +413,57 @@ $(document).ready(function() {
     console.log('Achievements button:', $('#achievements-toggle-btn').length > 0 ? 'Found' : 'Not found');
     console.log('Stats button:', $('#stats-toggle-btn').length > 0 ? 'Found' : 'Not found');
     console.log('Todo button:', $('#todo-toggle-btn').length > 0 ? 'Found' : 'Not found');
+    console.log('Lamp button:', $('#lamp-toggle-btn').length > 0 ? 'Found' : 'Not found');
+  };
+
+  // Test music functionality specifically
+  window.testMusic = function() {
+    console.log('🎵 Testing music functionality...');
+    console.log('Music button by ID:', $('#music-toggle').length > 0 ? 'Found' : 'Not found');
+    console.log('Music button by class:', $('.music-btn').length > 0 ? 'Found' : 'Not found');
+    console.log('Speaker icon:', $('.speaker-icon').length > 0 ? 'Found' : 'Not found');
+    console.log('Background music element:', $('#background-music').length > 0 ? 'Found' : 'Not found');
+    console.log('Background music audio object:', backgroundMusic ? 'Found' : 'Not found');
+    console.log('Current music state:', isMusicPlaying ? 'Playing' : 'Stopped');
+
+    // Test clicking the music button
+    console.log('Simulating music button click...');
+    $('#music-toggle').trigger('click');
+  };
+
+  // Test lamp toggle functionality
+  window.testLampToggle = function() {
+    console.log('🧪 Testing lamp toggle functionality...');
+    console.log('Lamp button element found:', $('#lamp-toggle-btn').length > 0);
+    console.log('Background overlay element found:', $('.background-overlay').length > 0);
+    console.log('Background transition element found:', $('.background-transition').length > 0);
+    console.log('Current lamp state:', localStorage.getItem('lampState'));
+
+    // Test clicking the lamp button
+    console.log('Simulating lamp button click with fade effect...');
+    $('#lamp-toggle-btn').trigger('click');
+
+    setTimeout(() => {
+      console.log('New lamp state after fade:', localStorage.getItem('lampState'));
+    }, 1000); // Wait for fade to complete
+  };
+
+  // Test fade effect multiple times
+  window.testFadeEffect = function() {
+    console.log('🎨 Testing fade effect with multiple toggles...');
+    let count = 0;
+    const maxToggles = 4;
+
+    const toggleInterval = setInterval(() => {
+      console.log(`Toggle ${count + 1}/${maxToggles}`);
+      $('#lamp-toggle-btn').trigger('click');
+      count++;
+
+      if (count >= maxToggles) {
+        clearInterval(toggleInterval);
+        console.log('✅ Fade effect test complete');
+      }
+    }, 1500); // Wait 1.5 seconds between toggles to see the effect
   };
 
   // ===== INITIALIZATION COMPLETE =====
@@ -391,6 +476,7 @@ $(document).ready(function() {
   console.log('  S - Toggle statistics panel');
   console.log('  A - Toggle achievements panel');
   console.log('  M - Toggle music');
+  console.log('  L - Toggle lamp/theme');
   console.log('  Escape - Close panels and settings menu');
-  console.log('🧪 Type testTimer() or testButtons() in console to test functionality');
+  console.log('🧪 Type testTimer(), testButtons(), testMusic(), testLampToggle(), or testFadeEffect() in console to test functionality');
 });

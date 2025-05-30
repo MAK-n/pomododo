@@ -6,19 +6,69 @@ Toggle buttons, panels, and UI components
 ===========================================
 */
 
+/* ===== LAMP TOGGLE BUTTON (TOP LEFT) ===== */
+.lamp-toggle {
+    position: fixed;
+    top: 2em;
+    left: 2em;
+    z-index: 1000;
+}
+
+.lamp-toggle-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #FFD700;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.9), rgba(255, 215, 0, 0.7));
+    backdrop-filter: blur(10px);
+    cursor: pointer !important;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    /* Performance optimizations */
+    will-change: transform, box-shadow;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    pointer-events: auto !important;
+}
+
+.lamp-toggle-btn:hover {
+    transform: translateY(-3px) scale(1.05) translateZ(0);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+    border-color: #e6c200;
+}
+
+.lamp-toggle-btn:active {
+    transform: translateY(-1px) scale(1.02) translateZ(0);
+    box-shadow: 0 3px 10px rgba(255, 215, 0, 0.3);
+}
+
+.lamp-icon {
+    font-size: 1.5em;
+    transition: all 0.3s ease-in-out;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
 /* ===== MUSIC PLAYER (BOTTOM LEFT CORNER) ===== */
 .music-player {
     position: fixed;
     bottom: 2em;
-    left: 2em; /* Bottom left corner */
-    z-index: 1000;
+    left: 2.5em; /* Bottom left corner */
+    z-index: 1002; /* Higher z-index to ensure it's above settings menu */
+    pointer-events: auto; /* Ensure the container allows clicks */
 }
 
 /* ===== SETTINGS MENU CONTAINER ===== */
 .settings-menu-container {
     position: fixed;
-    bottom: 2em; /* Moved above the music button */
-    left: 2em; /* Back to original left position */
+    bottom: 6em; /* Positioned above the music button with vertical spacing */
+    left: 2.5em; /* Same horizontal position as music button */
     z-index: 1000;
     /* Ensure enough space for expanded items */
     min-width: 160px;
@@ -169,7 +219,7 @@ Toggle buttons, panels, and UI components
     border: 2px solid #A0E7E5;
     background: linear-gradient(135deg, rgba(139, 90, 43, 0.9), rgba(139, 90, 43, 0.7));
     backdrop-filter: blur(10px);
-    cursor: pointer;
+    cursor: pointer !important; /* Force cursor pointer */
     transition: all 0.3s ease-in-out;
     display: flex;
     align-items: center;
@@ -183,6 +233,7 @@ Toggle buttons, panels, and UI components
     transform: translateZ(0);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    pointer-events: auto !important; /* Ensure button is clickable */
 }
 
 .music-btn:hover {
@@ -510,6 +561,7 @@ Toggle buttons, panels, and UI components
 }
 
 /* ===== FOCUS STATES FOR ACCESSIBILITY ===== */
+.lamp-toggle-btn:focus,
 .settings-toggle-btn:focus,
 .music-btn:focus,
 .stats-toggle-btn:focus,

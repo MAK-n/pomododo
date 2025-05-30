@@ -18,7 +18,15 @@
 </head>
 <body>
     <div class="background-overlay"></div>
+    <div class="background-transition"></div>
     <div id="lamp-overlay"></div>
+
+    <!-- Lamp Toggle Button (Top Left Corner) -->
+    <div class="lamp-toggle">
+        <button id="lamp-toggle-btn" class="lamp-toggle-btn" title="Toggle Theme">
+            <span class="lamp-icon">💡</span>
+        </button>
+    </div>
 
     <!-- Music Player (Bottom Left Corner) -->
     <div class="music-player">
@@ -207,12 +215,12 @@
     <!-- To-Do List Panel -->
     <div id="todo-panel" class="todo-panel">
         <div class="todo-header">
-            <h2>Study Goals</h2>
+            <h2>To-Do List</h2>
             <button id="close-todo" class="close-btn">&times;</button>
         </div>
 
         <div class="todo-input-section">
-            <input type="text" id="todo-input" placeholder="Add a new study goal..." maxlength="100">
+            <input type="text" id="todo-input" placeholder="Add a new goal..." maxlength="100">
             <select id="todo-category">
                 <option value="study">📚 Study</option>
                 <option value="work">💼 Work</option>
