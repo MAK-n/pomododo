@@ -28,39 +28,65 @@ const clearAllBtn = $('#clear-all');
 // ===== TODO INITIALIZATION =====
 function initializeTodos() {
   console.log('📝 Initializing Todos Module');
-  
+
+  // Debug: Check if elements exist
+  console.log('Todo button found:', todoToggleBtn.length > 0);
+  console.log('Todo panel found:', todoPanel.length > 0);
+
   renderTodos();
-  
+
   // Event Listeners
-  todoToggleBtn.on('click', toggleTodoPanel);
+  if (todoToggleBtn.length > 0) {
+    todoToggleBtn.on('click', function(e) {
+      console.log('📝 Todo button clicked!');
+      toggleTodoPanel();
+    });
+  } else {
+    console.error('❌ Todo toggle button not found!');
+  }
+
   closeTodoBtn.on('click', closeTodoPanel);
   addTodoBtn.on('click', addTodo);
   clearCompletedBtn.on('click', clearCompletedTodos);
   clearAllBtn.on('click', clearAllTodos);
-  
+
   // Enter key to add todo
   todoInput.on('keypress', function(e) {
     if (e.which === 13) {
       addTodo();
     }
   });
-  
+
   // Todo item interactions
   $(document).on('click', '.todo-checkbox', toggleTodoCompletion);
   $(document).on('click', '.todo-delete', deleteTodo);
-  
+
   console.log('✅ Todos Module Initialized');
 }
 
 // ===== TODO PANEL FUNCTIONS =====
 
 function toggleTodoPanel() {
+  const isOpening = !todoPanel.hasClass('active');
   todoPanel.toggleClass('active');
-  renderTodos();
+
+  if (isOpening) {
+    if (window.trackPanelOpen) {
+      window.trackPanelOpen('todos');
+    }
+    renderTodos();
+  } else {
+    if (window.trackPanelClose) {
+      window.trackPanelClose('todos');
+    }
+  }
 }
 
 function closeTodoPanel() {
   todoPanel.removeClass('active');
+  if (window.trackPanelClose) {
+    window.trackPanelClose('todos');
+  }
 }
 
 // ===== TODO MANAGEMENT FUNCTIONS =====
@@ -68,12 +94,12 @@ function closeTodoPanel() {
 function addTodo() {
   const text = todoInput.val().trim();
   const category = todoCategory.val();
-  
+
   if (!text) {
     todoInput.focus();
     return;
   }
-  
+
   const todo = {
     id: todoIdCounter++,
     text: text,
@@ -81,41 +107,41 @@ function addTodo() {
     completed: false,
     createdAt: new Date().toISOString()
   };
-  
+
   todos.unshift(todo); // Add to beginning of array
-  
+
   // Clear input
   todoInput.val('');
   todoInput.focus();
-  
+
   // Save and render
   saveTodos();
   renderTodos();
-  
+
   console.log('➕ Todo added:', todo);
 }
 
 function toggleTodoCompletion() {
   const todoId = parseInt($(this).data('id'));
   const todo = todos.find(t => t.id === todoId);
-  
+
   if (todo) {
     const wasCompleted = todo.completed;
     todo.completed = !todo.completed;
-    
+
     // Check for achievements when task is completed
     if (!wasCompleted && todo.completed) {
       checkFirstTaskAchievement();
-      
+
       // Check for other achievements
       if (window.checkAchievements) {
         window.checkAchievements();
       }
     }
-    
+
     saveTodos();
     renderTodos();
-    
+
     console.log('✅ Todo toggled:', todo);
   }
 }
@@ -123,10 +149,10 @@ function toggleTodoCompletion() {
 function deleteTodo() {
   const todoId = parseInt($(this).data('id'));
   todos = todos.filter(t => t.id !== todoId);
-  
+
   saveTodos();
   renderTodos();
-  
+
   console.log('🗑️ Todo deleted:', todoId);
 }
 
@@ -134,7 +160,7 @@ function clearCompletedTodos() {
   todos = todos.filter(t => !t.completed);
   saveTodos();
   renderTodos();
-  
+
   console.log('🧹 Completed todos cleared');
 }
 
@@ -143,7 +169,7 @@ function clearAllTodos() {
     todos = [];
     saveTodos();
     renderTodos();
-    
+
     console.log('🧹 All todos cleared');
   }
 }
@@ -152,7 +178,7 @@ function clearAllTodos() {
 
 function checkFirstTaskAchievement() {
   const completedTasksCount = todos.filter(t => t.completed).length;
-  
+
   if (completedTasksCount === 1) {
     // This is the first task ever completed
     if (window.achievements && !window.achievements['first_task']) {
@@ -160,11 +186,11 @@ function checkFirstTaskAchievement() {
         unlockedAt: new Date().toISOString(),
         progress: 1
       };
-      
+
       if (window.saveAchievements) {
         window.saveAchievements();
       }
-      
+
       if (window.achievementDefinitions && window.showAchievementNotification) {
         const firstTaskAchievement = window.achievementDefinitions.find(a => a.id === 'first_task');
         if (firstTaskAchievement) {
@@ -179,7 +205,7 @@ function checkFirstTaskAchievement() {
 
 function renderTodos() {
   todoList.empty();
-  
+
   if (todos.length === 0) {
     todoList.html(`
       <div class="todo-empty">
@@ -203,7 +229,7 @@ function renderTodos() {
       todoList.append(todoHtml);
     });
   }
-  
+
   updateCompletedCount();
 }
 
@@ -211,15 +237,15 @@ function updateCompletedCount() {
   const completed = todos.filter(t => t.completed).length;
   const total = todos.length;
   const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
-  
+
   // Update text elements
   completedCount.text(completed);
   totalCount.text(total);
   progressPercentage.text(percentage + '%');
-  
+
   // Update progress bar
   progressBarFill.css('width', percentage + '%');
-  
+
   // Add completion celebration effect for 100%
   if (percentage === 100 && total > 0) {
     progressBarFill.addClass('completed');
@@ -278,13 +304,28 @@ function getTodoStats() {
   const completed = getCompletedTodos().length;
   const total = todos.length;
   const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
-  
+
   return {
     completed,
     total,
     percentage,
     incomplete: total - completed
   };
+}
+
+// ===== DEBUG FUNCTIONS =====
+
+function testTodoButton() {
+  console.log('🧪 Testing Todo Button');
+  console.log('Button element:', $('#todo-toggle-btn'));
+  console.log('Button exists:', $('#todo-toggle-btn').length > 0);
+  console.log('Button visible:', $('#todo-toggle-btn').is(':visible'));
+  console.log('Button CSS display:', $('#todo-toggle-btn').css('display'));
+  console.log('Button CSS pointer-events:', $('#todo-toggle-btn').css('pointer-events'));
+  console.log('Button CSS cursor:', $('#todo-toggle-btn').css('cursor'));
+
+  // Try to trigger click manually
+  $('#todo-toggle-btn').trigger('click');
 }
 
 // ===== EXPORT FUNCTIONS =====
@@ -298,3 +339,5 @@ window.getCurrentTaskCategory = getCurrentTaskCategory;
 window.getTodoStats = getTodoStats;
 window.addTodo = addTodo;
 window.saveTodos = saveTodos;
+window.testTodoButton = testTodoButton;
+window.toggleTodoPanel = toggleTodoPanel;

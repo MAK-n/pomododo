@@ -20,7 +20,7 @@
     <div class="background-overlay"></div>
     <div id="lamp-overlay"></div>
 
-    <!-- Music Player -->
+    <!-- Music Player (Bottom Left Corner) -->
     <div class="music-player">
         <button id="music-toggle" class="music-btn" title="Toggle Background Music">
             <span class="speaker-icon">🔊</span>
@@ -31,25 +31,35 @@
         </audio>
     </div>
 
-    <!-- Statistics Toggle Button -->
-    <div class="stats-toggle">
-        <button id="stats-toggle-btn" class="stats-toggle-btn" title="Toggle Statistics">
-            <span class="stats-icon">📊</span>
-        </button>
-    </div>
+    <!-- Settings Menu Container -->
+    <div class="settings-menu-container">
+        <!-- Main Settings Toggle Button -->
+        <div class="settings-toggle">
+            <button id="settings-toggle-btn" class="settings-toggle-btn" title="Settings Menu">
+                <span class="settings-icon">⚙️</span>
+            </button>
+        </div>
 
-    <!-- Achievements Toggle Button -->
-    <div class="achievements-toggle">
-        <button id="achievements-toggle-btn" class="achievements-toggle-btn" title="Toggle Achievements">
-            <span class="achievements-icon">🏆</span>
-        </button>
-    </div>
+        <!-- Statistics Toggle Button -->
+        <div class="stats-toggle settings-item" data-position="stats">
+            <button id="stats-toggle-btn" class="stats-toggle-btn" title="Toggle Statistics">
+                <span class="stats-icon">📊</span>
+            </button>
+        </div>
 
-    <!-- To-Do List Toggle Button -->
-    <div class="todo-toggle">
-        <button id="todo-toggle-btn" class="todo-toggle-btn" title="Toggle To-Do List">
-            <span class="todo-icon">📝</span>
-        </button>
+        <!-- Achievements Toggle Button -->
+        <div class="achievements-toggle settings-item" data-position="achievements">
+            <button id="achievements-toggle-btn" class="achievements-toggle-btn" title="Toggle Achievements">
+                <span class="achievements-icon">🏆</span>
+            </button>
+        </div>
+
+        <!-- To-Do List Toggle Button -->
+        <div class="todo-toggle settings-item" data-position="todo">
+            <button id="todo-toggle-btn" class="todo-toggle-btn" title="Toggle To-Do List">
+                <span class="todo-icon">📝</span>
+            </button>
+        </div>
     </div>
 
     <!-- Statistics Panel -->

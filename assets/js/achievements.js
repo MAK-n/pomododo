@@ -16,20 +16,20 @@ const achievementDefinitions = [
   { id: 'task_champion_10', category: 'tasks', icon: '🏆', title: 'Task Champion', description: 'Complete 10 tasks', target: 10, type: 'tasks_completed' },
   { id: 'task_legend_25', category: 'tasks', icon: '👑', title: 'Task Legend', description: 'Complete 25 tasks', target: 25, type: 'tasks_completed' },
   { id: 'perfectionist', category: 'tasks', icon: '💎', title: 'Perfectionist', description: 'Complete all tasks in a day', target: 1, type: 'perfect_day' },
-  
+
   // Session Achievements
   { id: 'first_session', category: 'sessions', icon: '🍅', title: 'Pomodoro Beginner', description: 'Complete your first session', target: 1, type: 'sessions_completed' },
   { id: 'session_warrior_10', category: 'sessions', icon: '⚔️', title: 'Session Warrior', description: 'Complete 10 sessions', target: 10, type: 'sessions_completed' },
   { id: 'session_master_25', category: 'sessions', icon: '🥇', title: 'Session Master', description: 'Complete 25 sessions', target: 25, type: 'sessions_completed' },
   { id: 'session_legend_50', category: 'sessions', icon: '🌟', title: 'Session Legend', description: 'Complete 50 sessions', target: 50, type: 'sessions_completed' },
   { id: 'marathon_runner', category: 'sessions', icon: '🏃', title: 'Marathon Runner', description: 'Complete 5 sessions in one day', target: 5, type: 'daily_sessions' },
-  
+
   // Streak Achievements
   { id: 'streak_starter', category: 'streaks', icon: '🔥', title: 'Streak Starter', description: 'Complete tasks for 3 days in a row', target: 3, type: 'daily_streak' },
   { id: 'streak_keeper', category: 'streaks', icon: '🔥🔥', title: 'Streak Keeper', description: 'Complete tasks for 7 days in a row', target: 7, type: 'daily_streak' },
   { id: 'streak_master', category: 'streaks', icon: '🔥🔥🔥', title: 'Streak Master', description: 'Complete tasks for 14 days in a row', target: 14, type: 'daily_streak' },
   { id: 'unstoppable', category: 'streaks', icon: '⚡', title: 'Unstoppable', description: 'Complete tasks for 30 days in a row', target: 30, type: 'daily_streak' },
-  
+
   // Special Achievements
   { id: 'early_bird', category: 'special', icon: '🌅', title: 'Early Bird', description: 'Complete a task before 8 AM', target: 1, type: 'early_completion' },
   { id: 'night_owl', category: 'special', icon: '🦉', title: 'Night Owl', description: 'Complete a task after 10 PM', target: 1, type: 'late_completion' },
@@ -48,44 +48,61 @@ const categoryFilters = $('.category-filter');
 // ===== ACHIEVEMENTS INITIALIZATION =====
 function initializeAchievements() {
   console.log('🏆 Initializing Achievements Module');
-  
+  console.log('🏆 Achievements button found:', achievementsToggleBtn.length > 0);
+  console.log('🏆 Achievements panel found:', achievementsPanel.length > 0);
+
   // Event Listeners
   achievementsToggleBtn.on('click', toggleAchievementsPanel);
   closeAchievementsBtn.on('click', closeAchievementsPanel);
-  
+
   // Category filter functionality
   $(document).on('click', '.category-filter', function() {
     $('.category-filter').removeClass('active');
     $(this).addClass('active');
     renderAchievements();
   });
-  
+
   console.log('✅ Achievements Module Initialized');
 }
 
 // ===== ACHIEVEMENTS PANEL FUNCTIONS =====
 
 function toggleAchievementsPanel() {
+  console.log('🏆 Achievements button clicked!');
+  const isOpening = !achievementsPanel.hasClass('active');
   achievementsPanel.toggleClass('active');
-  renderAchievements();
+
+  if (isOpening) {
+    if (window.trackPanelOpen) {
+      window.trackPanelOpen('achievements');
+    }
+    renderAchievements();
+  } else {
+    if (window.trackPanelClose) {
+      window.trackPanelClose('achievements');
+    }
+  }
 }
 
 function closeAchievementsPanel() {
   achievementsPanel.removeClass('active');
+  if (window.trackPanelClose) {
+    window.trackPanelClose('achievements');
+  }
 }
 
 // ===== ACHIEVEMENTS CHECKING =====
 
 function checkAchievements() {
   const newAchievements = [];
-  
+
   achievementDefinitions.forEach(achievement => {
     // Skip "first_task" as it's handled separately in todos.js
     if (achievement.id === 'first_task') return;
-    
+
     if (!achievements[achievement.id]) {
       const progress = getAchievementProgress(achievement);
-      
+
       if (progress >= achievement.target) {
         achievements[achievement.id] = {
           unlockedAt: new Date().toISOString(),
@@ -108,7 +125,7 @@ function getAchievementProgress(achievement) {
   const statistics = window.getStatistics ? window.getStatistics() : { sessions: [], shortBreaks: [], longBreaks: [], totalTimeSpent: {} };
   const totalSessions = statistics.sessions ? statistics.sessions.length : 0;
   const today = window.getCurrentDateString ? window.getCurrentDateString() : new Date().toDateString();
-  
+
   switch (achievement.type) {
     case 'first_task_ever':
       // For "First Steps" - return 1 only if user has exactly 1 completed task OR if already unlocked
@@ -116,36 +133,36 @@ function getAchievementProgress(achievement) {
         return 1; // Already unlocked
       }
       return completedTasks >= 1 ? 1 : 0; // Check if they have at least 1 completed task
-    
+
     case 'tasks_completed':
       return completedTasks;
-    
+
     case 'sessions_completed':
       return totalSessions;
-    
+
     case 'perfect_day':
       const todayTasks = todos.filter(t => new Date(t.createdAt).toDateString() === today);
       const todayCompleted = todayTasks.filter(t => t.completed).length;
       return (todayTasks.length > 0 && todayCompleted === todayTasks.length) ? 1 : 0;
-    
+
     case 'daily_sessions':
       const todayStats = statistics.dailyStats ? (statistics.dailyStats[today] || { sessions: 0 }) : { sessions: 0 };
       return todayStats.sessions;
-    
+
     case 'early_completion':
       return todos.some(t => t.completed && new Date(t.createdAt).getHours() < 8) ? 1 : 0;
-    
+
     case 'late_completion':
       return todos.some(t => t.completed && new Date(t.createdAt).getHours() >= 22) ? 1 : 0;
-    
+
     case 'category_diversity':
       const categories = new Set(todos.filter(t => t.completed).map(t => t.category));
       return categories.size;
-    
+
     case 'total_time':
       const totalTime = statistics.totalTimeSpent ? Object.values(statistics.totalTimeSpent).reduce((a, b) => a + b, 0) : 0;
       return totalTime;
-    
+
     default:
       return 0;
   }
@@ -155,8 +172,8 @@ function getAchievementProgress(achievement) {
 
 function renderAchievements() {
   const activeCategory = $('.category-filter.active').data('category') || 'all';
-  const filteredAchievements = activeCategory === 'all' 
-    ? achievementDefinitions 
+  const filteredAchievements = activeCategory === 'all'
+    ? achievementDefinitions
     : achievementDefinitions.filter(a => a.category === activeCategory);
 
   achievementsGrid.empty();
@@ -227,7 +244,7 @@ function showAchievementNotification(newAchievements) {
 
     // Add to body and animate
     $('body').append(notification);
-    
+
     setTimeout(() => {
       notification.addClass('show');
     }, 100);
@@ -240,7 +257,7 @@ function showAchievementNotification(newAchievements) {
       }, 500);
     }, 4000);
   });
-  
+
   console.log('🎉 Achievement notifications shown:', newAchievements);
 }
 
@@ -263,7 +280,7 @@ function resetAchievements() {
     achievements = {};
     saveAchievements();
     renderAchievements();
-    
+
     console.log('🔄 Achievements reset');
   }
 }

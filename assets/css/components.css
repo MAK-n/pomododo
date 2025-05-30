@@ -6,13 +6,161 @@ Toggle buttons, panels, and UI components
 ===========================================
 */
 
-/* ===== MUSIC PLAYER ===== */
+/* ===== MUSIC PLAYER (BOTTOM LEFT CORNER) ===== */
 .music-player {
     position: fixed;
-    top: 2em;
-    left: 2em;
+    bottom: 2em;
+    left: 2em; /* Bottom left corner */
     z-index: 1000;
 }
+
+/* ===== SETTINGS MENU CONTAINER ===== */
+.settings-menu-container {
+    position: fixed;
+    bottom: 2em; /* Moved above the music button */
+    left: 2em; /* Back to original left position */
+    z-index: 1000;
+    /* Ensure enough space for expanded items */
+    min-width: 160px;
+    min-height: 160px; /* Reduced since music button is separate */
+}
+
+/* ===== MAIN SETTINGS TOGGLE BUTTON ===== */
+.settings-toggle {
+    position: relative;
+    z-index: 1001;
+}
+
+.settings-toggle-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #FFD700;
+    background: linear-gradient(135deg, rgba(160, 231, 229, 0.9), rgba(160, 231, 229, 0.7));
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    /* Performance optimizations to prevent blurriness */
+    will-change: transform, box-shadow;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.settings-toggle-btn:hover {
+    transform: translateY(-3px) scale(1.05) translateZ(0);
+    box-shadow: 0 6px 20px rgba(160, 231, 229, 0.4);
+    border-color: #e6c200;
+}
+
+.settings-toggle-btn:active {
+    transform: translateY(-1px) scale(1.02) translateZ(0);
+    box-shadow: 0 3px 10px rgba(160, 231, 229, 0.3);
+}
+
+.settings-icon {
+    font-size: 1.5em;
+    transition: all 0.3s ease-in-out;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.settings-toggle-btn.active .settings-icon {
+    transform: rotate(180deg);
+}
+
+/* Settings menu overlay */
+.settings-menu-container::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.settings-menu-container.expanded::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Visual connection indicator when expanded */
+.settings-menu-container::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 140px;
+    height: 140px;
+    /* border: 2px dashed rgba(160, 231, 229, 0.3);
+    border-radius: 50%; */
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    transition: all 0.4s ease;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.settings-menu-container.expanded::after {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+/* ===== SETTINGS ITEMS (STATS, ACHIEVEMENTS, TODO) ===== */
+.settings-item {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform: translate(0, 0) scale(0.5);
+    z-index: 1000;
+    pointer-events: none; /* Prevent clicks when hidden */
+}
+
+.settings-menu-container.expanded .settings-item {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    pointer-events: auto; /* Allow clicks when visible */
+    cursor: pointer; /* Ensure cursor changes */
+}
+
+.settings-menu-container.expanded .settings-item button {
+    cursor: pointer !important; /* Force cursor on buttons */
+    pointer-events: auto !important; /* Ensure buttons are clickable */
+}
+
+/* Circular pattern positioning around settings icon - closer and more organized */
+.settings-menu-container.expanded .settings-item[data-position="stats"] {
+    transform: translate(0px, -180px) scale(1); /* Directly above */
+    transition-delay: 0.1s;
+}
+
+.settings-menu-container.expanded .settings-item[data-position="achievements"] {
+    transform: translate(75px, -135px) scale(1); /* Top-right diagonal (45 degrees) */
+    transition-delay: 0.15s;
+}
+
+.settings-menu-container.expanded .settings-item[data-position="todo"] {
+    transform: translate(75px, -60px) scale(1); /* Directly to the right */
+    transition-delay: 0.2s;
+}
+
+/* ===== MUSIC BUTTON STYLES ===== */
 
 .music-btn {
     width: 60px;
@@ -73,12 +221,7 @@ Toggle buttons, panels, and UI components
 }
 
 /* ===== STATISTICS TOGGLE BUTTON ===== */
-.stats-toggle {
-    position: fixed;
-    bottom: 2em;
-    left: 2em;
-    z-index: 1000;
-}
+/* Positioning handled by settings-item container */
 
 .stats-toggle-btn {
     width: 60px;
@@ -121,12 +264,7 @@ Toggle buttons, panels, and UI components
 }
 
 /* ===== ACHIEVEMENTS TOGGLE BUTTON ===== */
-.achievements-toggle {
-    position: fixed;
-    top: 2em;
-    right: 2em;
-    z-index: 1000;
-}
+/* Positioning handled by settings-item container */
 
 .achievements-toggle-btn {
     width: 60px;
@@ -169,12 +307,7 @@ Toggle buttons, panels, and UI components
 }
 
 /* ===== TODO TOGGLE BUTTON ===== */
-.todo-toggle {
-    position: fixed;
-    bottom: 2em;
-    right: 2em;
-    z-index: 1000;
-}
+/* Positioning handled by settings-item container */
 
 .todo-toggle-btn {
     width: 60px;
@@ -183,7 +316,7 @@ Toggle buttons, panels, and UI components
     border: 2px solid #FFD700;
     background: linear-gradient(135deg, rgba(139, 90, 43, 0.9), rgba(139, 90, 43, 0.7));
     backdrop-filter: blur(10px);
-    cursor: pointer;
+    cursor: pointer !important; /* Force cursor pointer */
     transition: all 0.3s ease-in-out;
     display: flex;
     align-items: center;
@@ -197,6 +330,7 @@ Toggle buttons, panels, and UI components
     transform: translateZ(0);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    pointer-events: auto !important; /* Ensure button is clickable */
 }
 
 .todo-toggle-btn:hover {
@@ -280,9 +414,10 @@ Toggle buttons, panels, and UI components
     border-left: 2px solid #A0E7E5;
     box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3);
     transition: right 0.4s ease-in-out;
-    z-index: 999;
+    z-index: 1001; /* Higher z-index to ensure clickability */
     overflow-y: auto;
     padding: 0;
+    pointer-events: auto; /* Ensure clicks work */
 }
 
 .todo-panel.active {
@@ -375,6 +510,7 @@ Toggle buttons, panels, and UI components
 }
 
 /* ===== FOCUS STATES FOR ACCESSIBILITY ===== */
+.settings-toggle-btn:focus,
 .music-btn:focus,
 .stats-toggle-btn:focus,
 .achievements-toggle-btn:focus,

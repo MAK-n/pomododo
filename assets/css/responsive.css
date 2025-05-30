@@ -87,8 +87,8 @@ Mobile and tablet responsive design
 
   /* ===== MOBILE TOGGLE BUTTONS ===== */
   .music-player {
-    top: 1.5em;
-    left: 1.5em;
+    bottom: 1.5em;
+    left: 1.5em; /* Bottom left corner on mobile */
   }
 
   .music-btn {
@@ -100,46 +100,37 @@ Mobile and tablet responsive design
     font-size: 1.3em;
   }
 
-  .stats-toggle {
-    bottom: 1.5em;
-    left: 1.5em;
+  .settings-menu-container {
+    bottom: 6em; /* Above music button on mobile */
+    left: 1.5em; /* Back to original left position */
   }
 
-  .stats-toggle-btn {
-    width: 50px;
-    height: 50px;
-  }
-
-  .stats-icon {
-    font-size: 1.3em;
-  }
-
-  .achievements-toggle {
-    top: 1.5em;
-    right: 1.5em;
-  }
-
-  .achievements-toggle-btn {
-    width: 50px;
-    height: 50px;
-  }
-
-  .achievements-icon {
-    font-size: 1.3em;
-  }
-
-  .todo-toggle {
-    bottom: 1.5em;
-    right: 1.5em;
-  }
-
+  .settings-toggle-btn,
+  .stats-toggle-btn,
+  .achievements-toggle-btn,
   .todo-toggle-btn {
     width: 50px;
     height: 50px;
   }
 
+  .settings-icon,
+  .stats-icon,
+  .achievements-icon,
   .todo-icon {
     font-size: 1.3em;
+  }
+
+  /* Adjust mobile positioning to be more compact but avoid overlap */
+  .settings-menu-container.expanded .settings-item[data-position="stats"] {
+    transform: translate(0px, -70px) scale(1);
+  }
+
+  .settings-menu-container.expanded .settings-item[data-position="achievements"] {
+    transform: translate(50px, -50px) scale(1);
+  }
+
+  .settings-menu-container.expanded .settings-item[data-position="todo"] {
+    transform: translate(70px, 0px) scale(1);
   }
 
   /* ===== MOBILE PANELS ===== */
@@ -244,6 +235,17 @@ Mobile and tablet responsive design
     font-size: 1.1em;
   }
 
+  /* All panels slide in from right on mobile */
+  .stats-panel {
+    width: 100%;
+    right: -100%;
+  }
+
+  .achievements-panel {
+    width: 100%;
+    right: -100%;
+  }
+
   .todo-panel {
     width: 100%;
     right: -100%;
@@ -318,6 +320,29 @@ Mobile and tablet responsive design
   .achievement-notification {
     max-width: 280px;
     padding: 0.8em;
+  }
+
+  /* Extra small screen adjustments for settings menu */
+  .music-player {
+    bottom: 1.5em;
+    left: 1.5em; /* Keep in bottom left corner */
+  }
+
+  .settings-menu-container {
+    bottom: 5.5em; /* Above music button on extra small screens */
+    left: 1.5em; /* Back to original left position */
+  }
+
+  .settings-menu-container.expanded .settings-item[data-position="stats"] {
+    transform: translate(0px, -60px) scale(1);
+  }
+
+  .settings-menu-container.expanded .settings-item[data-position="achievements"] {
+    transform: translate(42px, -42px) scale(1);
+  }
+
+  .settings-menu-container.expanded .settings-item[data-position="todo"] {
+    transform: translate(60px, 0px) scale(1);
   }
 }
 

@@ -24,6 +24,11 @@ $(document).ready(function() {
   const backgroundMusic = $('#background-music')[0];
   let isMusicPlaying = false;
 
+  // Settings Menu Elements
+  const settingsToggleBtn = $('#settings-toggle-btn');
+  const settingsMenuContainer = $('.settings-menu-container');
+  let isSettingsExpanded = false;
+
   // ===== INITIALIZATION =====
 
   // Initialize all modules
@@ -55,6 +60,7 @@ $(document).ready(function() {
 
   initializeTheme();
   initializeMusic();
+  initializeSettingsMenu();
 
   // ===== THEME FUNCTIONALITY =====
 
@@ -82,6 +88,9 @@ $(document).ready(function() {
   // ===== MUSIC FUNCTIONALITY =====
 
   function initializeMusic() {
+    console.log('🎵 Initializing Music - Button found:', musicBtn.length > 0);
+    console.log('🎵 Background music element found:', backgroundMusic ? 'Yes' : 'No');
+
     // Set initial music state
     if (backgroundMusic) {
       backgroundMusic.volume = 0.3;
@@ -103,20 +112,90 @@ $(document).ready(function() {
 
   // Music toggle
   musicBtn.on('click', function() {
-    if (!backgroundMusic) return;
+    console.log('🎵 Music button clicked!');
+    if (!backgroundMusic) {
+      console.log('❌ Background music element not found');
+      return;
+    }
 
     if (isMusicPlaying) {
       backgroundMusic.pause();
       isMusicPlaying = false;
+      console.log('🔇 Music paused');
     } else {
       backgroundMusic.play().catch(e => {
         console.log('Music play failed:', e);
       });
       isMusicPlaying = true;
+      console.log('🔊 Music playing');
     }
 
     updateMusicButton();
   });
+
+  // ===== SETTINGS MENU FUNCTIONALITY =====
+
+  function initializeSettingsMenu() {
+    console.log('⚙️ Initializing Settings Menu');
+
+    // Settings toggle event
+    settingsToggleBtn.on('click', toggleSettingsMenu);
+
+    console.log('✅ Settings Menu Initialized');
+  }
+
+
+
+  function closeSettingsMenu() {
+    if (isSettingsExpanded) {
+      isSettingsExpanded = false;
+      settingsMenuContainer.removeClass('expanded');
+      settingsToggleBtn.removeClass('active');
+      console.log('⚙️ Settings menu closed');
+    }
+  }
+
+  // Track which panels are open to prevent settings menu from reopening
+  let activePanels = new Set();
+
+  function trackPanelOpen(panelName) {
+    activePanels.add(panelName);
+    closeSettingsMenu();
+    console.log('📋 Panel opened:', panelName, '- Settings menu closed');
+  }
+
+  function trackPanelClose(panelName) {
+    activePanels.delete(panelName);
+    console.log('📋 Panel closed:', panelName);
+  }
+
+  function canOpenSettingsMenu() {
+    return activePanels.size === 0;
+  }
+
+  // Override settings toggle to check if panels are open
+  function toggleSettingsMenu() {
+    if (!canOpenSettingsMenu()) {
+      console.log('⚙️ Settings menu blocked - panels are open:', Array.from(activePanels));
+      return;
+    }
+
+    isSettingsExpanded = !isSettingsExpanded;
+
+    if (isSettingsExpanded) {
+      settingsMenuContainer.addClass('expanded');
+      settingsToggleBtn.addClass('active');
+    } else {
+      settingsMenuContainer.removeClass('expanded');
+      settingsToggleBtn.removeClass('active');
+    }
+
+    console.log('⚙️ Settings menu toggled:', isSettingsExpanded ? 'expanded' : 'collapsed');
+  }
+
+  // Make panel tracking functions available globally
+  window.trackPanelOpen = trackPanelOpen;
+  window.trackPanelClose = trackPanelClose;
 
   // ===== UTILITY FUNCTIONS =====
 
@@ -167,10 +246,22 @@ $(document).ready(function() {
     const clickedElement = $(e.target);
 
     // Check if click is outside all panels and toggle buttons
-    if (!clickedElement.closest('.stats-panel, .stats-toggle-btn, .achievements-panel, .achievements-toggle-btn, .todo-panel, .todo-toggle-btn').length) {
+    if (!clickedElement.closest('.stats-panel, .stats-toggle-btn, .achievements-panel, .achievements-toggle-btn, .todo-panel, .todo-toggle-btn, .settings-menu-container, .music-player').length) {
+      // Track panel closures
+      if ($('.stats-panel').hasClass('active')) {
+        trackPanelClose('statistics');
+      }
+      if ($('.achievements-panel').hasClass('active')) {
+        trackPanelClose('achievements');
+      }
+      if ($('.todo-panel').hasClass('active')) {
+        trackPanelClose('todos');
+      }
+
       $('.stats-panel').removeClass('active');
       $('.achievements-panel').removeClass('active');
       $('.todo-panel').removeClass('active');
+      closeSettingsMenu();
     }
   });
 
@@ -196,11 +287,23 @@ $(document).ready(function() {
       }
     }
 
-    // Escape to close panels
+    // Escape to close panels and settings menu
     if (e.code === 'Escape') {
+      // Track panel closures
+      if ($('.stats-panel').hasClass('active')) {
+        trackPanelClose('statistics');
+      }
+      if ($('.achievements-panel').hasClass('active')) {
+        trackPanelClose('achievements');
+      }
+      if ($('.todo-panel').hasClass('active')) {
+        trackPanelClose('todos');
+      }
+
       $('.stats-panel').removeClass('active');
       $('.achievements-panel').removeClass('active');
       $('.todo-panel').removeClass('active');
+      closeSettingsMenu();
     }
 
     // T for todo panel
@@ -221,6 +324,11 @@ $(document).ready(function() {
     // M for music toggle
     if (e.code === 'KeyM' && !$(e.target).is('input, textarea, select')) {
       musicBtn.click();
+    }
+
+    // G for settings menu (G for "Gear")
+    if (e.code === 'KeyG' && !$(e.target).is('input, textarea, select')) {
+      settingsToggleBtn.click();
     }
   });
 
@@ -262,15 +370,27 @@ $(document).ready(function() {
     }
   };
 
+  // ===== BUTTON TESTING =====
+
+  window.testButtons = function() {
+    console.log('🧪 Testing button functionality...');
+    console.log('Music button:', $('#music-toggle').length > 0 ? 'Found' : 'Not found');
+    console.log('Settings button:', $('#settings-toggle-btn').length > 0 ? 'Found' : 'Not found');
+    console.log('Achievements button:', $('#achievements-toggle-btn').length > 0 ? 'Found' : 'Not found');
+    console.log('Stats button:', $('#stats-toggle-btn').length > 0 ? 'Found' : 'Not found');
+    console.log('Todo button:', $('#todo-toggle-btn').length > 0 ? 'Found' : 'Not found');
+  };
+
   // ===== INITIALIZATION COMPLETE =====
 
   console.log('🚀 Pomodoro Timer App Ready!');
   console.log('📝 Keyboard shortcuts:');
   console.log('  Space - Start/Stop timer');
+  console.log('  G - Toggle settings menu');
   console.log('  T - Toggle todo panel');
   console.log('  S - Toggle statistics panel');
   console.log('  A - Toggle achievements panel');
   console.log('  M - Toggle music');
-  console.log('  Escape - Close panels');
-  console.log('🧪 Type testTimer() in console to test timer functionality');
+  console.log('  Escape - Close panels and settings menu');
+  console.log('🧪 Type testTimer() or testButtons() in console to test functionality');
 });
