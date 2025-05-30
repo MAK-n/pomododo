@@ -4,12 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pomodoro</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/todos.css">
+    <link rel="stylesheet" href="assets/css/statistics.css">
+    <link rel="stylesheet" href="assets/css/achievements.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
 
 </head>
 <body>
     <div class="background-overlay"></div>
+    <div id="lamp-overlay"></div>
 
     <!-- Music Player -->
     <div class="music-player">
@@ -17,9 +26,219 @@
             <span class="speaker-icon">🔊</span>
         </button>
         <audio id="background-music" loop>
-            <source src="music/music.mp3" type="audio/mpeg">
+            <source src="assets/music/music.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>
+    </div>
+
+    <!-- Statistics Toggle Button -->
+    <div class="stats-toggle">
+        <button id="stats-toggle-btn" class="stats-toggle-btn" title="Toggle Statistics">
+            <span class="stats-icon">📊</span>
+        </button>
+    </div>
+
+    <!-- Achievements Toggle Button -->
+    <div class="achievements-toggle">
+        <button id="achievements-toggle-btn" class="achievements-toggle-btn" title="Toggle Achievements">
+            <span class="achievements-icon">🏆</span>
+        </button>
+    </div>
+
+    <!-- To-Do List Toggle Button -->
+    <div class="todo-toggle">
+        <button id="todo-toggle-btn" class="todo-toggle-btn" title="Toggle To-Do List">
+            <span class="todo-icon">📝</span>
+        </button>
+    </div>
+
+    <!-- Statistics Panel -->
+    <div id="stats-panel" class="stats-panel">
+        <div class="stats-header">
+            <h2>📊 Statistics</h2>
+            <button id="close-stats" class="close-btn">&times;</button>
+        </div>
+
+        <div class="stats-content">
+            <!-- Today's Stats -->
+            <div class="stats-section">
+                <h3>📅 Today</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">🍅 Sessions</span>
+                        <span class="stat-value" id="today-sessions">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">☕ Short Breaks</span>
+                        <span class="stat-value" id="today-short-breaks">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">🌟 Long Breaks</span>
+                        <span class="stat-value" id="today-long-breaks">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">⏱️ Total Time</span>
+                        <span class="stat-value" id="today-time">0m</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- This Week's Stats -->
+            <div class="stats-section">
+                <h3>📆 This Week</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">🍅 Sessions</span>
+                        <span class="stat-value" id="week-sessions">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">☕ Short Breaks</span>
+                        <span class="stat-value" id="week-short-breaks">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">🌟 Long Breaks</span>
+                        <span class="stat-value" id="week-long-breaks">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">⏱️ Total Time</span>
+                        <span class="stat-value" id="week-time">0m</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- All Time Stats -->
+            <div class="stats-section">
+                <h3>🏆 All Time</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">🍅 Sessions</span>
+                        <span class="stat-value" id="alltime-sessions">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">☕ Short Breaks</span>
+                        <span class="stat-value" id="alltime-short-breaks">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">🌟 Long Breaks</span>
+                        <span class="stat-value" id="alltime-long-breaks">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">⏱️ Total Time</span>
+                        <span class="stat-value" id="alltime-time">0m</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Breakdown -->
+            <div class="stats-section">
+                <h3>📋 Time by Category</h3>
+                <div class="category-stats">
+                    <div class="category-item">
+                        <span class="category-label">📚 Study</span>
+                        <span class="category-value" id="category-study">0m</span>
+                    </div>
+                    <div class="category-item">
+                        <span class="category-label">💼 Work</span>
+                        <span class="category-value" id="category-work">0m</span>
+                    </div>
+                    <div class="category-item">
+                        <span class="category-label">🏠 Personal</span>
+                        <span class="category-value" id="category-personal">0m</span>
+                    </div>
+                    <div class="category-item">
+                        <span class="category-label">💪 Exercise</span>
+                        <span class="category-value" id="category-exercise">0m</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievements Panel -->
+    <div id="achievements-panel" class="achievements-panel">
+        <div class="achievements-header">
+            <h2>🏆 Achievements</h2>
+            <button id="close-achievements" class="close-btn">&times;</button>
+        </div>
+
+        <div class="achievements-content">
+            <!-- Achievement Categories -->
+            <div class="achievement-categories">
+                <button class="category-filter active" data-category="all">All</button>
+                <button class="category-filter" data-category="tasks">Tasks</button>
+                <button class="category-filter" data-category="sessions">Sessions</button>
+                <button class="category-filter" data-category="streaks">Streaks</button>
+                <button class="category-filter" data-category="special">Special</button>
+            </div>
+
+            <!-- Achievements Grid -->
+            <div class="achievements-grid" id="achievements-grid">
+                <!-- Achievements will be dynamically added here -->
+            </div>
+
+            <!-- Achievement Stats Summary -->
+            <div class="achievement-summary">
+                <div class="summary-item">
+                    <span class="summary-label">🏅 Unlocked</span>
+                    <span class="summary-value" id="unlocked-count">0</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">📊 Total</span>
+                    <span class="summary-value" id="total-achievements">0</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">⭐ Progress</span>
+                    <span class="summary-value" id="achievement-progress">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- To-Do List Panel -->
+    <div id="todo-panel" class="todo-panel">
+        <div class="todo-header">
+            <h2>Study Goals</h2>
+            <button id="close-todo" class="close-btn">&times;</button>
+        </div>
+
+        <div class="todo-input-section">
+            <input type="text" id="todo-input" placeholder="Add a new study goal..." maxlength="100">
+            <select id="todo-category">
+                <option value="study">📚 Study</option>
+                <option value="work">💼 Work</option>
+                <option value="personal">🏠 Personal</option>
+                <option value="exercise">💪 Exercise</option>
+            </select>
+            <button id="add-todo" class="add-todo-btn">Add</button>
+        </div>
+
+        <div class="todo-stats">
+            <div class="progress-section">
+                <div class="progress-info">
+                    <span class="progress-text">
+                        <span id="completed-count">0</span> of <span id="total-count">0</span> tasks completed
+                    </span>
+                    <span class="progress-percentage" id="progress-percentage">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progress-bar">
+                        <div class="progress-bar-fill" id="progress-bar-fill"></div>
+                        <div class="progress-bar-glow"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="todo-list-container">
+            <ul id="todo-list" class="todo-list">
+                <!-- Tasks will be dynamically added here -->
+            </ul>
+        </div>
+
+        <div class="todo-actions">
+            <button id="clear-completed" class="action-btn">Clear Completed</button>
+            <button id="clear-all" class="action-btn danger">Clear All</button>
+        </div>
     </div>
 
     <div class="container">
@@ -44,8 +263,15 @@
             <button id="reset">Reset</button>
         </div>
     </div>
+    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="app.js"></script>
+
+    <!-- JavaScript Modules -->
+    <script src="assets/js/timer.js"></script>
+    <script src="assets/js/todos.js"></script>
+    <script src="assets/js/statistics.js"></script>
+    <script src="assets/js/achievements.js"></script>
+    <script src="assets/js/app.js"></script>
 </body>
 </html>

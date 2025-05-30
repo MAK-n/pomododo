@@ -1,0 +1,352 @@
+/*
+===========================================
+POMODORO TIMER - RESPONSIVE STYLES
+===========================================
+Mobile and tablet responsive design
+===========================================
+*/
+
+/* ===== TABLET STYLES ===== */
+@media (max-width: 768px) {
+  .container {
+    padding: 1em;
+    gap: 1.5em;
+  }
+
+  .title {
+    font-size: 2.5em;
+  }
+
+  .timer {
+    font-size: 6em;
+  }
+
+  .mode-selector {
+    gap: 0.8em;
+  }
+
+  .mode-btn {
+    font-size: 1em;
+    padding: 0.7em 1.5em;
+  }
+
+  .button-wrapper {
+    gap: 1em;
+  }
+
+  .button-wrapper button {
+    font-size: 1.1em;
+    padding: 0.5em 1.2em;
+  }
+}
+
+/* ===== MOBILE STYLES ===== */
+@media (max-width: 480px) {
+  .container {
+    padding: 1em;
+    gap: 1em;
+    transform: translateY(-2em);
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+    border: none;
+  }
+
+  .title {
+    font-size: 2em;
+    margin-bottom: 0.3em;
+  }
+
+  .timer {
+    font-size: 4.5em;
+  }
+
+  .mode-selector {
+    flex-wrap: wrap;
+    gap: 0.5em;
+    justify-content: center;
+  }
+
+  .mode-btn {
+    font-size: 0.9em;
+    padding: 0.6em 1.2em;
+  }
+
+  .button-wrapper {
+    flex-direction: column;
+    gap: 0.8em;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .button-wrapper button {
+    font-size: 1em;
+    padding: 0.8em;
+    width: 100%;
+  }
+
+  /* ===== MOBILE TOGGLE BUTTONS ===== */
+  .music-player {
+    top: 1.5em;
+    left: 1.5em;
+  }
+
+  .music-btn {
+    width: 50px;
+    height: 50px;
+  }
+
+  .speaker-icon {
+    font-size: 1.3em;
+  }
+
+  .stats-toggle {
+    bottom: 1.5em;
+    left: 1.5em;
+  }
+
+  .stats-toggle-btn {
+    width: 50px;
+    height: 50px;
+  }
+
+  .stats-icon {
+    font-size: 1.3em;
+  }
+
+  .achievements-toggle {
+    top: 1.5em;
+    right: 1.5em;
+  }
+
+  .achievements-toggle-btn {
+    width: 50px;
+    height: 50px;
+  }
+
+  .achievements-icon {
+    font-size: 1.3em;
+  }
+
+  .todo-toggle {
+    bottom: 1.5em;
+    right: 1.5em;
+  }
+
+  .todo-toggle-btn {
+    width: 50px;
+    height: 50px;
+  }
+
+  .todo-icon {
+    font-size: 1.3em;
+  }
+
+  /* ===== MOBILE PANELS ===== */
+  .stats-panel {
+    width: 100%;
+    left: -100%;
+  }
+
+  .stats-header {
+    padding: 1em;
+  }
+
+  .stats-header h2 {
+    font-size: 1.3em;
+  }
+
+  .stats-content {
+    padding: 1em;
+  }
+
+  .stats-section {
+    padding: 1em;
+    margin-bottom: 1.5em;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 0.8em;
+  }
+
+  .stat-item {
+    padding: 0.8em;
+  }
+
+  .category-item {
+    padding: 0.6em 0.8em;
+  }
+
+  .achievements-panel {
+    width: 100%;
+    right: -100%;
+  }
+
+  .achievements-header {
+    padding: 1em;
+  }
+
+  .achievements-header h2 {
+    font-size: 1.3em;
+  }
+
+  .achievements-content {
+    padding: 1em;
+  }
+
+  .achievement-categories {
+    gap: 0.3em;
+    margin-bottom: 1em;
+  }
+
+  .category-filter {
+    font-size: 0.8em;
+    padding: 0.4em 0.8em;
+  }
+
+  .achievement-item {
+    padding: 1em;
+  }
+
+  .achievement-icon {
+    font-size: 2em;
+  }
+
+  .achievement-title {
+    font-size: 1.1em;
+  }
+
+  .achievement-description {
+    font-size: 0.85em;
+  }
+
+  .achievement-summary {
+    padding: 1em;
+    grid-template-columns: 1fr;
+    gap: 0.8em;
+  }
+
+  .achievement-notification {
+    max-width: 300px;
+    padding: 1em;
+  }
+
+  .achievement-notification-icon {
+    font-size: 2.5em;
+  }
+
+  .achievement-notification-title {
+    font-size: 0.9em;
+  }
+
+  .achievement-notification-name {
+    font-size: 1.1em;
+  }
+
+  .todo-panel {
+    width: 100%;
+    right: -100%;
+  }
+
+  .todo-header {
+    padding: 1em;
+  }
+
+  .todo-header h2 {
+    font-size: 1.3em;
+  }
+
+  .todo-input-section {
+    padding: 1em;
+  }
+
+  .todo-stats {
+    padding: 1em;
+  }
+
+  .progress-info {
+    flex-direction: column;
+    gap: 0.5em;
+    text-align: center;
+  }
+
+  .progress-text {
+    font-size: 0.9em;
+  }
+
+  .progress-percentage {
+    font-size: 1.1em;
+  }
+
+  .todo-item {
+    padding: 0.8em 1em;
+  }
+
+  .todo-actions {
+    padding: 1em;
+    flex-direction: column;
+  }
+}
+
+/* ===== EXTRA SMALL MOBILE ===== */
+@media (max-width: 320px) {
+  .title {
+    font-size: 1.8em;
+  }
+
+  .timer {
+    font-size: 3.5em;
+  }
+
+  .mode-btn {
+    font-size: 0.8em;
+    padding: 0.5em 1em;
+  }
+
+  .button-wrapper button {
+    font-size: 0.9em;
+    padding: 0.7em;
+  }
+
+  .stats-panel,
+  .achievements-panel,
+  .todo-panel {
+    width: 100vw;
+  }
+
+  .achievement-notification {
+    max-width: 280px;
+    padding: 0.8em;
+  }
+}
+
+/* ===== LANDSCAPE MOBILE ===== */
+@media (max-width: 768px) and (orientation: landscape) {
+  .container {
+    transform: translateY(-2em);
+    gap: 0.8em;
+  }
+
+  .title {
+    font-size: 2em;
+    margin-bottom: 0.2em;
+  }
+
+  .timer {
+    font-size: 3.5em;
+  }
+
+  .mode-selector {
+    margin-bottom: 0.5em;
+  }
+
+  .button-wrapper {
+    flex-direction: row;
+    gap: 1em;
+  }
+
+  .button-wrapper button {
+    padding: 0.5em 1em;
+  }
+}

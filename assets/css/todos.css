@@ -1,0 +1,307 @@
+/*
+===========================================
+POMODORO TIMER - TODO LIST STYLES
+===========================================
+Todo list, progress bar, and task management
+===========================================
+*/
+
+/* ===== TODO STATS & PROGRESS ===== */
+.todo-stats {
+    padding: 1.5em;
+    background: rgba(139, 90, 43, 0.1);
+    border-bottom: 1px solid rgba(139, 90, 43, 0.2);
+}
+
+.progress-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #8B5A2B;
+    font-weight: 600;
+}
+
+.progress-text {
+    font-size: 1em;
+}
+
+#completed-count, #total-count {
+    color: #A0E7E5;
+    font-size: 1.1em;
+    font-weight: 700;
+}
+
+.progress-percentage {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #FFD700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.progress-bar-container {
+    position: relative;
+    width: 100%;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    background: rgba(139, 90, 43, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(160, 231, 229, 0.3);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #A0E7E5, #7dd3d1, #A0E7E5);
+    background-size: 200% 100%;
+    border-radius: 10px;
+    transition: width 0.6s ease-in-out;
+    position: relative;
+    width: 0%;
+    animation: progressShimmer 2s ease-in-out infinite;
+}
+
+.progress-bar-fill.completed {
+    background: linear-gradient(90deg, #FFD700, #e6c200, #FFD700);
+    animation: completionCelebration 2s ease-in-out;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
+.progress-bar-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.progress-bar-fill:not([style*="width: 0"]) + .progress-bar-glow {
+    opacity: 1;
+    animation: progressGlow 2s ease-in-out infinite;
+}
+
+/* ===== TODO LIST ===== */
+.todo-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 0;
+    list-style: none;
+    margin: 0;
+}
+
+.todo-empty {
+    text-align: center;
+    padding: 3em 2em;
+    color: #8B5A2B;
+    opacity: 0.7;
+}
+
+.todo-empty-icon {
+    font-size: 3em;
+    margin-bottom: 0.5em;
+    opacity: 0.5;
+}
+
+.todo-empty-text {
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-bottom: 0.3em;
+}
+
+.todo-empty-subtext {
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    padding: 1em 1.5em;
+    border-bottom: 1px solid rgba(139, 90, 43, 0.1);
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.todo-item:hover {
+    background: rgba(160, 231, 229, 0.1);
+}
+
+.todo-item.completed {
+    opacity: 0.7;
+    background: rgba(139, 90, 43, 0.05);
+}
+
+.todo-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #A0E7E5;
+    border-radius: 4px;
+    margin-right: 1em;
+    cursor: pointer;
+    position: relative;
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.todo-checkbox:hover {
+    border-color: #FFD700;
+    transform: scale(1.1);
+}
+
+.todo-checkbox.checked {
+    background: #A0E7E5;
+    border-color: #A0E7E5;
+}
+
+.todo-checkbox.checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #8B5A2B;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.todo-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+}
+
+.todo-text {
+    color: #8B5A2B;
+    font-size: 1em;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.todo-item.completed .todo-text {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.todo-category {
+    font-size: 0.8em;
+    color: #A0E7E5;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.todo-delete {
+    background: linear-gradient(135deg, #FFAEBB, #ff8fa3);
+    color: #8B5A2B;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin-left: 1em;
+}
+
+.todo-delete:hover {
+    background: linear-gradient(135deg, #ff8fa3, #ff7a95);
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(255, 174, 187, 0.4);
+}
+
+/* ===== TODO ACTIONS ===== */
+.todo-actions {
+    padding: 1.5em;
+    display: flex;
+    gap: 1em;
+    border-top: 1px solid rgba(139, 90, 43, 0.2);
+    background: rgba(139, 90, 43, 0.05);
+}
+
+.action-btn {
+    flex: 1;
+    padding: 0.8em;
+    border: none;
+    border-radius: 0.5em;
+    font-size: 0.9em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-btn.primary {
+    background: linear-gradient(135deg, #A0E7E5, #7dd3d1);
+    color: #8B5A2B;
+}
+
+.action-btn.primary:hover {
+    background: linear-gradient(135deg, #8dd8d6, #6bc7c5);
+    transform: translateY(-2px);
+}
+
+.action-btn.danger {
+    background: linear-gradient(135deg, #FFAEBB, #ff8fa3);
+    color: #8B5A2B;
+}
+
+.action-btn.danger:hover {
+    background: linear-gradient(135deg, #ff8fa3, #ff7a95);
+    transform: translateY(-2px);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes progressShimmer {
+    0%, 100% {
+        background-position: 200% 0;
+    }
+    50% {
+        background-position: -200% 0;
+    }
+}
+
+@keyframes progressGlow {
+    0%, 100% {
+        transform: translateX(-100%);
+    }
+    50% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes completionCelebration {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    }
+    25% {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+    }
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
+    }
+    75% {
+        transform: scale(1.03);
+        box-shadow: 0 0 35px rgba(255, 215, 0, 0.9);
+    }
+}
