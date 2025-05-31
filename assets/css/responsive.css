@@ -100,6 +100,31 @@ Mobile and tablet responsive design
     font-size: 1.3em;
   }
 
+  .notepad-container {
+    top: 6em; /* Closer to lamp toggle on mobile */
+    left: 1.5em;
+  }
+
+  .notepad-toggle-btn {
+    width: 50px;
+    height: 50px;
+  }
+
+  .notepad-icon {
+    font-size: 1.3em;
+  }
+
+  .notepad-panel {
+    width: 90vw;
+    max-width: 350px;
+    max-height: 70vh;
+  }
+
+  #notepad-textarea {
+    height: 200px;
+    font-size: 0.9em;
+  }
+
   .music-player {
     bottom: 1.5em;
     left: 1.5em; /* Bottom left corner on mobile */

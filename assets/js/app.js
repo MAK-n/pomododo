@@ -55,6 +55,12 @@ $(document).ready(function() {
     console.log('⚠️ initializeAchievements function not found (optional)');
   }
 
+  if (typeof initializeNotepad === 'function') {
+    initializeNotepad();
+  } else {
+    console.log('⚠️ initializeNotepad function not found (optional)');
+  }
+
   initializeMusic();
   initializeSettingsMenu();
 
@@ -359,8 +365,8 @@ $(document).ready(function() {
   function initializeLampToggle() {
     console.log('💡 Initializing Lamp Toggle');
 
-    // Load saved lamp state
-    isLampOn = localStorage.getItem('lampState') === 'true';
+    // Start with lamp off (no persistence)
+    isLampOn = false;
     updateBackgroundImage();
 
     // Event listener
@@ -373,9 +379,7 @@ $(document).ready(function() {
     isLampOn = !isLampOn;
     updateBackgroundImage();
 
-    // Save state
-    localStorage.setItem('lampState', isLampOn.toString());
-
+    // No persistence - lamp state resets on page refresh
     console.log('💡 Lamp toggled:', isLampOn ? 'ON' : 'OFF');
   }
 
@@ -437,14 +441,14 @@ $(document).ready(function() {
     console.log('Lamp button element found:', $('#lamp-toggle-btn').length > 0);
     console.log('Background overlay element found:', $('.background-overlay').length > 0);
     console.log('Background transition element found:', $('.background-transition').length > 0);
-    console.log('Current lamp state:', localStorage.getItem('lampState'));
+    console.log('Current lamp state:', isLampOn ? 'ON' : 'OFF');
 
     // Test clicking the lamp button
     console.log('Simulating lamp button click with fade effect...');
     $('#lamp-toggle-btn').trigger('click');
 
     setTimeout(() => {
-      console.log('New lamp state after fade:', localStorage.getItem('lampState'));
+      console.log('New lamp state after fade:', isLampOn ? 'ON' : 'OFF');
     }, 1000); // Wait for fade to complete
   };
 
@@ -466,6 +470,28 @@ $(document).ready(function() {
     }, 1500); // Wait 1.5 seconds between toggles to see the effect
   };
 
+  // Test notepad functionality
+  window.testNotepad = function() {
+    console.log('📝 Testing notepad functionality...');
+    console.log('Notepad button element found:', $('#notepad-toggle-btn').length > 0);
+    console.log('Notepad panel element found:', $('#notepad-panel').length > 0);
+    console.log('Notepad textarea element found:', $('#notepad-textarea').length > 0);
+
+    // Test clicking the notepad button
+    console.log('Simulating notepad button click...');
+    $('#notepad-toggle-btn').trigger('click');
+
+    setTimeout(() => {
+      console.log('Notepad panel active:', $('#notepad-panel').hasClass('active'));
+
+      // Test adding some content
+      if (window.setNotepadContent) {
+        window.setNotepadContent('Test note content!');
+        console.log('Test content added to notepad');
+      }
+    }, 500);
+  };
+
   // ===== INITIALIZATION COMPLETE =====
 
   console.log('🚀 Pomodoro Timer App Ready!');
@@ -477,6 +503,7 @@ $(document).ready(function() {
   console.log('  A - Toggle achievements panel');
   console.log('  M - Toggle music');
   console.log('  L - Toggle lamp/theme');
+  console.log('  Alt + N - Toggle notepad');
   console.log('  Escape - Close panels and settings menu');
-  console.log('🧪 Type testTimer(), testButtons(), testMusic(), testLampToggle(), or testFadeEffect() in console to test functionality');
+  console.log('🧪 Type testTimer(), testButtons(), testMusic(), testLampToggle(), testFadeEffect(), or testNotepad() in console to test functionality');
 });

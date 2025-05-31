@@ -8,9 +8,11 @@ A beautiful, feature-rich Pomodoro Timer application with todo management, stati
 - **📝 Todo Management** - Organize tasks by categories with progress tracking
 - **📊 Statistics** - Track your productivity with detailed analytics
 - **🏆 Achievement System** - Unlock achievements as you complete tasks and sessions
+- **📝 Quick Notepad** - Write important notes that reset on page refresh
 - **🎵 Background Music** - Optional ambient music for focus
 - **🌙 Theme Support** - Day/night mode with beautiful backgrounds
 - **📱 Responsive Design** - Works perfectly on desktop and mobile
+- **🔄 Fresh Start** - All data resets on page refresh for focused sessions
 
 ## 📁 Project Structure
 
@@ -31,6 +33,7 @@ pomodoro-app/
 │   │   ├── todos.js         # Todo list management
 │   │   ├── statistics.js    # Statistics tracking
 │   │   ├── achievements.js  # Achievement system
+│   │   ├── notepad.js       # Quick notepad functionality
 │   │   └── utils.js         # Utility functions
 │   ├── img/                 # Images
 │   └── music/               # Audio files
@@ -73,6 +76,13 @@ Then open `http://localhost:8000` in your browser.
 - **Check off** completed tasks
 - **Track progress** with visual progress bar
 
+### Quick Notepad
+- **Alt + N** - Toggle notepad panel
+- **Write important notes** for the current session
+- **Character counter** shows note length
+- **Clear button** to reset notes
+- **Notes reset** on page refresh for fresh starts
+
 ### Statistics
 - **S** - Toggle statistics panel
 - **View** today, this week, and all-time stats
@@ -83,8 +93,9 @@ Then open `http://localhost:8000` in your browser.
 - **Unlock achievements** by completing tasks and sessions
 - **Filter** by category (Tasks, Sessions, Streaks, Special)
 
-### Music
+### Music & Theme
 - **M** - Toggle background music
+- **L** - Toggle day/night theme
 - **Ambient sounds** to help with focus
 
 ## 🎯 Achievement Categories
@@ -123,7 +134,6 @@ Then open `http://localhost:8000` in your browser.
 - **CSS3** - Modern styling with animations
 - **JavaScript (ES6+)** - Modular architecture
 - **jQuery** - DOM manipulation and events
-- **LocalStorage** - Data persistence
 
 ### Browser Support
 - Chrome 60+
@@ -131,11 +141,12 @@ Then open `http://localhost:8000` in your browser.
 - Safari 12+
 - Edge 79+
 
-### Data Storage
-- All data is stored locally in your browser
-- No backend server required
-- Data persists between sessions
-- Each browser/device has its own data
+### Data Storage & Session Management
+- **Fresh Start Philosophy** - All data resets on page refresh for focused sessions
+- **No Persistent Storage** - Tasks, achievements, statistics, and notes reset when you reload
+- **Session-Based Productivity** - Perfect for focused work sessions without distractions
+- **No Backend Required** - Runs entirely in your browser
+- **Privacy Focused** - No data is saved or tracked between sessions
 
 ## 🎨 Customization
 
@@ -153,6 +164,23 @@ Edit `assets/js/achievements.js` and add new achievement definitions to the `ach
 ### Modifying Timer Durations
 Edit the `TIMER_DURATIONS` object in `assets/js/timer.js`.
 
+### Customizing the Notepad
+Edit `assets/js/notepad.js` to modify notepad behavior or `assets/css/components.css` for styling.
+
+## ⌨️ Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| **Space** | Start/Stop timer |
+| **G** | Toggle settings menu |
+| **T** | Toggle todo panel |
+| **S** | Toggle statistics panel |
+| **A** | Toggle achievements panel |
+| **M** | Toggle background music |
+| **L** | Toggle day/night theme |
+| **Alt + N** | Toggle notepad |
+| **Escape** | Close all panels and menus |
+
 ## 📱 Mobile Support
 
 The app is fully responsive and works great on:
@@ -160,6 +188,21 @@ The app is fully responsive and works great on:
 - 📱 Tablets
 - 💻 Desktop computers
 - 🖥️ Large screens
+
+## 🧪 Testing & Development
+
+For developers and testing purposes, the following functions are available in the browser console:
+
+| Function | Description |
+|----------|-------------|
+| `testTimer()` | Test timer functionality |
+| `testButtons()` | Test all button elements |
+| `testMusic()` | Test music functionality |
+| `testLampToggle()` | Test theme toggle |
+| `testFadeEffect()` | Test background fade transitions |
+| `testNotepad()` | Test notepad functionality |
+
+Simply open the browser console (F12) and type any of these functions to test specific features.
 
 ## 🤝 Contributing
 

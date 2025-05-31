@@ -7,7 +7,7 @@ Statistics tracking and data visualization
 */
 
 // ===== STATISTICS VARIABLES =====
-let statistics = JSON.parse(localStorage.getItem('pomodoroStatistics')) || {
+let statistics = {
   sessions: [],
   shortBreaks: [],
   longBreaks: [],
@@ -19,7 +19,7 @@ let statistics = JSON.parse(localStorage.getItem('pomodoroStatistics')) || {
   },
   dailyStats: {},
   createdAt: new Date().toISOString()
-};
+}; // Reset on every page refresh - no persistence
 
 // Statistics Elements
 const statsToggleBtn = $('#stats-toggle-btn');
@@ -250,7 +250,8 @@ function getMostProductiveDay() {
 // ===== UTILITY FUNCTIONS =====
 
 function saveStatistics() {
-  localStorage.setItem('pomodoroStatistics', JSON.stringify(statistics));
+  // No persistence - statistics reset on page refresh
+  console.log('📊 Statistics updated (no persistence)');
 }
 
 function resetStatistics() {
@@ -269,7 +270,6 @@ function resetStatistics() {
       createdAt: new Date().toISOString()
     };
 
-    saveStatistics();
     renderStatistics();
 
     console.log('🔄 Statistics reset');

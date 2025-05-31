@@ -28,6 +28,26 @@
         </button>
     </div>
 
+    <!-- Notepad (Below Lamp Toggle) -->
+    <div class="notepad-container">
+        <button id="notepad-toggle-btn" class="notepad-toggle-btn" title="Toggle Notepad (Alt + N)">
+            <span class="notepad-icon">📝</span>
+        </button>
+        <div id="notepad-panel" class="notepad-panel">
+            <div class="notepad-header">
+                <h3>📝 Quick Notes</h3>
+                <button id="close-notepad" class="close-btn">&times;</button>
+            </div>
+            <div class="notepad-content">
+                <textarea id="notepad-textarea" placeholder="Write your important notes here..."></textarea>
+                <div class="notepad-actions">
+                    <button id="clear-notes" class="notepad-action-btn">Clear</button>
+                    <span class="character-count">0 characters</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Music Player (Bottom Left Corner) -->
     <div class="music-player">
         <button id="music-toggle" class="music-btn" title="Toggle Background Music">
@@ -290,6 +310,7 @@
     <script src="assets/js/todos.js"></script>
     <script src="assets/js/statistics.js"></script>
     <script src="assets/js/achievements.js"></script>
+    <script src="assets/js/notepad.js"></script>
     <script src="assets/js/app.js"></script>
 </body>
 </html>

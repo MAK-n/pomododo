@@ -7,7 +7,7 @@ Achievement system and gamification
 */
 
 // ===== ACHIEVEMENTS VARIABLES =====
-let achievements = JSON.parse(localStorage.getItem('pomodoroAchievements')) || {};
+let achievements = {}; // Reset on every page refresh - no persistence
 
 const achievementDefinitions = [
   // Task Achievements
@@ -264,7 +264,8 @@ function showAchievementNotification(newAchievements) {
 // ===== UTILITY FUNCTIONS =====
 
 function saveAchievements() {
-  localStorage.setItem('pomodoroAchievements', JSON.stringify(achievements));
+  // No persistence - achievements reset on page refresh
+  console.log('🏆 Achievements updated (no persistence)');
 }
 
 function getAchievements() {
@@ -278,7 +279,6 @@ function getAchievementDefinitions() {
 function resetAchievements() {
   if (confirm('Are you sure you want to reset all achievements? This cannot be undone.')) {
     achievements = {};
-    saveAchievements();
     renderAchievements();
 
     console.log('🔄 Achievements reset');

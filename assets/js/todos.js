@@ -7,8 +7,8 @@ Todo list management and progress tracking
 */
 
 // ===== TODO VARIABLES =====
-let todos = JSON.parse(localStorage.getItem('pomodoroTodos')) || [];
-let todoIdCounter = parseInt(localStorage.getItem('todoIdCounter')) || 1;
+let todos = []; // Reset on every page refresh - no persistence
+let todoIdCounter = 1; // Reset on every page refresh - no persistence
 
 // Todo Elements
 const todoToggleBtn = $('#todo-toggle-btn');
@@ -274,8 +274,8 @@ function escapeHtml(text) {
 }
 
 function saveTodos() {
-  localStorage.setItem('pomodoroTodos', JSON.stringify(todos));
-  localStorage.setItem('todoIdCounter', todoIdCounter.toString());
+  // No persistence - todos reset on page refresh
+  console.log('📝 Todos updated (no persistence)');
 }
 
 // ===== TODO GETTERS =====
